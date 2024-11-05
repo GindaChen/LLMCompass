@@ -17,9 +17,11 @@ transistor_density_7nm = scm.transistor_density_arr[scm.PN_7_INDEX]
 transistor_density_6nm = 114.2
 transistor_density_5nm = scm.transistor_density_arr[scm.PN_5_INDEX]
 
+# TODO - Seems to indicate per-bit cell area.
 sram_bit_cell_density_7nm = 1.70e-07
 sram_bit_cell_density_6nm = 1.40e-07
 sram_bit_cell_density_5nm = 1.25e-07
+mram_bit_cell_density_765nm = 0.5e-07 # TODO - Verify this data with mram density. Now we just assume mram is 2.5x denser than sram
 
 # cache size overheads derived from cacti for cache sizes
 # 4096, 8192, 16384, ..., 1 MB
@@ -202,8 +204,10 @@ def find_logic_sram_transistor_density(process_node):
         return transistor_density_6nm, sram_bit_cell_density_6nm
     elif '5' in process_node:
         return transistor_density_5nm, sram_bit_cell_density_5nm
+    elif 'mram' in process_node:
+        return transistor_density_5nm, mram_bit_cell_density_765nm
 
-    raise Exception("Invalid Process Node")
+    raise Exception(f"Invalid Process Node: {process_node}")
 
 
 # a compute core consists of a fixed control overhead

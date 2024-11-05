@@ -25,7 +25,7 @@ colors_gelu = sns.color_palette("pink", 1)
 colors_allreduce = sns.color_palette("Blues_r", 2)
 colors = colors_matmul + colors_normalization + colors_gelu + colors_allreduce
 
-batch_size = 8
+batch_size = 1
 
 results_init = pd.read_csv(
     f"memory_bw_results_bs{batch_size}_init.csv",
@@ -47,7 +47,8 @@ plt.figure(figsize=(7, 3))
 
 # Create the stacked bar graph
 x = 0
-x_labels = [i * 400 for i in [1, 2, 3, 4, 5, 6, 7, 8]]
+# x_labels = [i * 400 for i in [1, 2, 3, 4, 5, 6, 7, 8]]
+x_labels = [400, 1600, 3200, 6400, 12800, 25600, 51200, 102400]
 for row_index in x_labels:
     x = x + 1
     values = results_init.loc[row_index].tolist()
