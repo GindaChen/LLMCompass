@@ -1,3 +1,6 @@
+"""
+https://semiconductor.samsung.com/us/dram/lpddr/lpddr5/
+"""
 # Author: August Ning aning@princeton.edu
 # Date started: 12 October 2023
 # This file is the cost model for Naivesim
@@ -59,6 +62,7 @@ per_core_comm_dict = {'nvidia':per_core_comm_transistor_count, \
 pcie5_phy_mm2_per_lane = 0.64
 pcie4_phy_mm2_per_lane = 0.48
 ddr5_phy_mm2_per_link_unit = 1.45
+lpddr5_phy_mm2_per_link_unit = 1.45 # TODO - What is the number here? 0.64
 hbm2e_phy_mm2_per_link_unit = 10.45
 nvlink3_phy_mm2_per_link_unit = 1.888
 nvlink4_phy_mm2_per_link_unit = 0.965
@@ -67,6 +71,7 @@ infinity_fabric_phy_mm2_per_link_unit = 5.69
 pcie5_ctrl_transistors_per_lane = 5372100
 pcie4_ctrl_transistors_per_lane = 3962500
 ddr5_ctrl_transistors_per_link_unit = 90446400
+lpddr5_ctrl_transistors_per_link_unit = 90446400  # TODO - What is the number here?
 hbm2e_ctrl_transistors_per_link_unit = 552743000
 nvlink3_ctrl_transistors_per_link_unit = 74632000
 nvlink4_ctrl_transistors_per_link_unit = 86628000
@@ -80,6 +85,7 @@ HBM = 'HBM2e'
 NVLINK3 = 'NVLink3'
 NVLINK4 = 'NVLink4'
 INFINITYFABRIC = 'InfinityFabric'
+LPDDR5 = 'LPDDR5'
 
 # average via dramexchange spot price, Oct 2023
 ddr5_cost_per_gb = 0.30
@@ -156,6 +162,8 @@ def calc_mem_controller_area_mm2(mem_tech, width, transistor_density_mil_mm2):
         controller_transistor_count = pcie4_ctrl_transistors_per_lane * width
     elif mem_tech == DDR5:
         controller_transistor_count = ddr5_ctrl_transistors_per_link_unit * width
+    elif mem_tech == LPDDR5:
+        controller_transistor_count = lpddr5_ctrl_transistors_per_link_unit * width
     elif mem_tech == HBM:
         controller_transistor_count = hbm2e_ctrl_transistors_per_link_unit * width
     elif mem_tech == NVLINK3:
@@ -182,6 +190,8 @@ def calc_mem_phy_area_mm2(mem_tech, width):
         return nvlink4_phy_mm2_per_link_unit * width
     elif mem_tech == INFINITYFABRIC:
         return infinity_fabric_phy_mm2_per_link_unit * width
+    elif mem_tech == LPDDR5:
+        return lpddr5_phy_mm2_per_link_unit * width
     else:
         return -1
 
