@@ -24,11 +24,17 @@ from multiprocessing import Process, Lock
 import time
 from cost_model.cost_model import calc_compute_chiplet_area_mm2, calc_io_die_area_mm2
 
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("--input_seq_length", type=int, default=1024)
+parser.add_argument("--batch_size", type=int, default=1)
+args = parser.parse_args()
+print(args)
 
-input_seq_length = 1024
-batch_size = 1
+input_seq_length = args.input_seq_length
+batch_size = args.batch_size
 output_seq_length = 1
-arch_specs = read_architecture_template("configs/GA100x1.json")
+arch_specs = read_architecture_template("configs/snapdragen8gen2.json")
 device_count = arch_specs["device_count"]
 model_init = TransformerBlockInitComputationTP(
     d_model=768,
@@ -68,11 +74,11 @@ def test_memory_bandwidth(memory_bandwidth, lock):
         f"{memory_bandwidth}, {init_latency_simulated}, {auto_regression_latency_simulated}"
     )
     with lock:
-        with open(f"ae/figure8/memory_bw_results_bs{batch_size}_init.csv", "a") as f:
+        with open(f"ae/figure8/memory_bw_results_bs{batch_size}_seqlen{input_seq_length}_init.csv", "a") as f:
             f.write(
                 f"{memory_bandwidth*400}, {compute_area_mm2+io_area_mm2}, {init_latency_simulated}, {model_init.simluate_log}\n"
             )
-        with open(f"ae/figure8/memory_bw_results_bs{batch_size}_ar.csv", "a") as f:
+        with open(f"ae/figure8/memory_bw_results_bs{batch_size}_seqlen{input_seq_length}_ar.csv", "a") as f:
             f.write(
                 f"{memory_bandwidth*400}, {compute_area_mm2+io_area_mm2}, {auto_regression_latency_simulated}, {model_auto_regression.simluate_log}\n"
             )

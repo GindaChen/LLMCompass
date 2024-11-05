@@ -1,8 +1,5 @@
 {
     "name": "Adreno750",
-    "sources": [
-        "https://www.notebookcheck.net/Qualcomm-Adreno-750-GPU-Benchmarks-and-Specs.762136.0.html",
-    ],
     "device_count": 1,
     "interconnect": {
         "link": {
@@ -21,6 +18,7 @@
         "frequency_Hz": 1000e6,
         "compute_chiplet_count": 1,
         "compute_chiplet": {
+            "physical_core_count": 2,
             "core_count": 2,
             "process_node": "7nm",
             "core": {
@@ -36,8 +34,15 @@
                     "flop_per_cycle": 2,
                     "data_type": "fp32",
                     "int32_count": 16,
+                    "fp16_count": 0,
                     "fp32_count": 16,
                     "fp64_count": 8
+                },
+                "register_file": {
+                    "num_reg_files": 1,
+                    "num_registers": 16384,
+                    "register_bitwidth": 32,
+                    "num_rdwr_ports":4
                 },
                 "SRAM_KB": 128
             }
@@ -53,14 +58,18 @@
         "io": {
             "process_node": "7nm",
             "global_buffer_MB": 8,
+            "physical_global_buffer_MB": 8,
             "global_buffer_bandwidth_per_cycle_byte": 4096,
             "memory_channel_physical_count": 6,
             "memory_channel_active_count": 4,
             "pin_count_per_channel": 1024,
-            "bandwidth_per_pin_bit": 3.2e9
+            "bandwidth_per_pin_bit": 0.4e9
         },
         "memory": {
             "total_capacity_GB": 64
         }
-    }
+    },
+    "sources": [
+        "https://www.notebookcheck.net/Qualcomm-Adreno-750-GPU-Benchmarks-and-Specs.762136.0.html"
+    ]
 }

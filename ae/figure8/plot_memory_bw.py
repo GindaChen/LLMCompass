@@ -25,17 +25,24 @@ colors_gelu = sns.color_palette("pink", 1)
 colors_allreduce = sns.color_palette("Blues_r", 2)
 colors = colors_matmul + colors_normalization + colors_gelu + colors_allreduce
 
-batch_size = 1
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--batch_size", type=int, default=1)
+parser.add_argument("--input_seq_length", type=int, default=1024)
+args = parser.parse_args()
+batch_size = args.batch_size
+input_seq_length = args.input_seq_length
 
 results_init = pd.read_csv(
-    f"memory_bw_results_bs{batch_size}_init.csv",
+    f"memory_bw_results_bs{batch_size}_seqlen{input_seq_length}_init.csv",
     header=None,
     names=col_names,
     index_col=0,
 )
 results_init.index.astype(int)
 results_ar = pd.read_csv(
-    f"memory_bw_results_bs{batch_size}_ar.csv",
+    f"memory_bw_results_bs{batch_size}_seqlen{input_seq_length}_ar.csv",
     header=None,
     names=col_names,
     index_col=0,
@@ -48,7 +55,8 @@ plt.figure(figsize=(7, 3))
 # Create the stacked bar graph
 x = 0
 # x_labels = [i * 400 for i in [1, 2, 3, 4, 5, 6, 7, 8]]
-x_labels = [400, 1600, 3200, 6400, 12800, 25600, 51200, 102400]
+# x_labels = [400, 1600, 3200, 6400, 12800, 25600, 51200, 102400]
+x_labels = sorted(results_init.index.tolist())
 for row_index in x_labels:
     x = x + 1
     values = results_init.loc[row_index].tolist()
@@ -75,7 +83,7 @@ xticks = plt.gca().get_xticks()
 xticklabels = plt.gca().get_xticklabels()
 index_to_color_red = list(xticks).index(5)
 xticklabels[index_to_color_red].set_color("red")
-plt.savefig(f"figure8a.pdf", dpi=300, bbox_inches="tight", pad_inches=0.01)
+plt.savefig(f"figure8a.b{batch_size}_s{input_seq_length}.pdf", dpi=300, bbox_inches="tight", pad_inches=0.01)
 plt.show()
 
 
@@ -108,4 +116,5 @@ xticks = plt.gca().get_xticks()
 xticklabels = plt.gca().get_xticklabels()
 index_to_color_red = list(xticks).index(5)
 xticklabels[index_to_color_red].set_color("red")
-plt.savefig(f"figure8b.pdf", dpi=300, bbox_inches="tight", pad_inches=0.01)
+plt.savefig(f"figure8b.b{batch_size}_s{input_seq_length}.pdf", dpi=300, bbox_inches="tight", pad_inches=0.01)
+plt.show()
