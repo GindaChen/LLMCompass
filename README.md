@@ -23,6 +23,21 @@ $ pip3 install scipy
 
 ## Installation
 
+### If using Docker
+A Dockerfile has been provided (`./Dockerfile`), including all the software dependencies and the LLMCompass source code.
+
+```
+$ docker build -t llmcompass_ae .
+$ docker run -d -v $(pwd):/workspace --name llmcompass_container llmcompass bash -c "while true; do sleep 360000; done"
+$ docker exec -it llmcompass_container bash
+```
+
+Once you're in docker, switch to `/workspace` directory:
+
+```
+$ cd /workspace
+```
+
 ### If using Github
 ```
 $ git clone -b ISCA_AE https://github.com/PrincetonUniversity/LLMCompass
