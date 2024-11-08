@@ -38,6 +38,12 @@ Once you're in docker, switch to `/workspace` directory:
 $ cd /workspace
 ```
 
+and try to run some samples
+
+```bash
+python -m ae.figure5.ab.test_matmul --simgpu --roofline
+```
+
 ### If using Github
 ```
 $ git clone -b ISCA_AE https://github.com/PrincetonUniversity/LLMCompass
